@@ -9,13 +9,7 @@ describe("CounterAtom", () => {
     window.localStorage.clear()
     window.localStorage.setItem(LocalStorageKeys.sample, JSON.stringify({ 0: 10 }))
 
-    const { result } = renderHook(() => useAtom(CounterAtom), {
-      wrapper: ({children}) => {
-        window.localStorage.setItem(LocalStorageKeys.sample, JSON.stringify({ 0: 10 }))
-
-        return <div>{children}</div>
-      }
-    })
+    const { result } = renderHook(() => useAtom(CounterAtom))
 
     act(() => {
       const [, set] = result.current
