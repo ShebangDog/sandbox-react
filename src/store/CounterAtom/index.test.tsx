@@ -1,15 +1,21 @@
-import { renderHook } from "@testing-library/react"
+import { renderHook, waitFor } from "@testing-library/react"
 import { useAtom } from "jotai/index"
 import { act } from "react"
 import { LocalStorageKeys } from "../../shared/LocalStorageKeys"
 import { CounterAtom } from "./index"
 
 describe("CounterAtom", () => {
-  it("test", () => {
+  it("test", async () => {
     window.localStorage.clear()
     window.localStorage.setItem(LocalStorageKeys.sample, JSON.stringify({ 0: 10 }))
 
     const { result } = renderHook(() => useAtom(CounterAtom))
+
+    await waitFor(() => {
+      const [getValueById] = result.current
+
+      expect(getValueById(0)).toBe(10)
+    })
 
     act(() => {
       const [, set] = result.current
